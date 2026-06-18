@@ -31,18 +31,29 @@ $ sudo ./fuse_growtest /tmp/test        # or _inval / _direct variant
 $ python3 check_stale.py /tmp/test/testfile
 ```
 
+To exercise the `mmap()` path instead of `read()`:
+
+```
+$ ./check_stale_mmap /tmp/test/testfile
+```
+
 ## The daemon
 
 All three variants serve a single read-only file `/testfile` filled
 entirely with `0xAA` bytes. The file starts at 4996 bytes (intentionally
 straddling a page boundary) and grows at 128 KB/s.
 
-## The checker
+## The `read()` checker
 
 `check_stale.py` opens the file and reads it sequentially, checking every byte
 for zeros. Since the daemon fills every byte with `0xAA`, any zero byte is
 stale page cache data. Background threads hammer `stat()` to force frequent
 `i_size` updates via FUSE `getattr`.
+
+### the `mmap()` checker
+
+`check_stale_mmap.c` does the same, but reads via a single long-lived `mmap()`
+instead of `read()`, exercising the page-fault path (`filemap_fault`)
 
 ## Variants
 
