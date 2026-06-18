@@ -78,6 +78,8 @@ All results were obtained on Linux 6.19.7, x86_64.
 
 ### `fuse_growtest`
 
+`read()`:
+
 ```
 reading /tmp/test/testfile, checking for stale zeros ...
   STALE ZERO at offset 311329 (page 76, +33) t=1.070s
@@ -102,6 +104,34 @@ reading /tmp/test/testfile, checking for stale zeros ...
   STALE ZERO at offset 708982 (page 173, +374) t=4.104s
 
 Bug reproduced: 20 stale-zero region(s) in 4.1s (708985 bytes read).
+```
+
+`mmap()`:
+
+```
+mmap-reading /tmp/test/testfile, checking for stale zeros ...
+  STALE ZERO at offset 183810 (page 44, +3586) t=0.001s
+  STALE ZERO at offset 184011 (page 44, +3787) t=0.003s
+  STALE ZERO at offset 184047 (page 44, +3823) t=0.003s
+  STALE ZERO at offset 184122 (page 44, +3898) t=0.004s
+  STALE ZERO at offset 184190 (page 44, +3966) t=0.004s
+  STALE ZERO at offset 184262 (page 44, +4038) t=0.005s
+  STALE ZERO at offset 184434 (page 45, +114) t=0.006s
+  STALE ZERO at offset 184506 (page 45, +186) t=0.007s
+  STALE ZERO at offset 184901 (page 45, +581) t=0.010s
+  STALE ZERO at offset 184939 (page 45, +619) t=0.010s
+  STALE ZERO at offset 185217 (page 45, +897) t=0.012s
+  STALE ZERO at offset 185263 (page 45, +943) t=0.012s
+  STALE ZERO at offset 185326 (page 45, +1006) t=0.013s
+  STALE ZERO at offset 185374 (page 45, +1054) t=0.013s
+  STALE ZERO at offset 185440 (page 45, +1120) t=0.014s
+  STALE ZERO at offset 185622 (page 45, +1302) t=0.015s
+  STALE ZERO at offset 185666 (page 45, +1346) t=0.016s
+  STALE ZERO at offset 185704 (page 45, +1384) t=0.016s
+  STALE ZERO at offset 185730 (page 45, +1410) t=0.016s
+  STALE ZERO at offset 185868 (page 45, +1548) t=0.017s
+
+Bug reproduced: 20 stale-zero region(s) in 0.0s (185874 bytes read).
 ```
 
 ### `fuse_growtest_inval`
